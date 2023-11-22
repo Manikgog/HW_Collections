@@ -3,12 +3,11 @@ package com.collections.homeworkCollections;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private ArrayList<Employee> listOfEmployees;
-    private int maxNumberOfEmployees = 10;
+    private final int maxNumberOfEmployees = 10;
 
     public EmployeeServiceImpl(){
         listOfEmployees = new ArrayList<>();
@@ -44,7 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public ArrayList<Employee> showEmployees(){
-        return listOfEmployees;
+        return new ArrayList<>(listOfEmployees);
     }
 
 

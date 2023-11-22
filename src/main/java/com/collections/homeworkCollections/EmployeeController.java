@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/employee")
@@ -64,7 +64,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> showEmployees(){
+    public ArrayList<Employee> showEmployees(){
         return employeeService.showEmployees();
     }
 

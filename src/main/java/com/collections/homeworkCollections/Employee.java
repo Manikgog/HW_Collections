@@ -10,8 +10,12 @@ public class Employee {
         this.firstname = firstname;
     }
 
-    @Override public String toString(){
-        return "{ \"firstName:\" \"" + firstname + "\", \"lastName\": \"" + lastName + "\" }";
+    @Override
+    public String toString() {
+        return "{<br>" +
+                "\"lastName\"=\"" + lastName + "\"" +
+                ",<br>\"firstname\"=\"" + firstname + "\"<br>" +
+                "}";
     }
 
     @Override public boolean equals(Object employee){
