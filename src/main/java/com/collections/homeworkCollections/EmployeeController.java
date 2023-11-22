@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -63,19 +64,8 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public String showEmployees(){
-        ArrayList<Employee> list = employeeService.showEmployees();
-        StringBuilder listToJson = new StringBuilder();
-        listToJson.append("[<br>");
-        for (int i = 0; i < list.size(); i++) {
-            listToJson.append(list.get(i).toString());
-            if(i == list.size() - 1){
-                break;
-            }
-            listToJson.append(",<br>");
-        }
-        listToJson.append("<br>]");
-        return listToJson.toString();
+    public List<Employee> showEmployees(){
+        return employeeService.showEmployees();
     }
 
     public String checkNameAndLastName(String name, String lastName){
