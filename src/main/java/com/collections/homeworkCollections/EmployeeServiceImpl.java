@@ -2,59 +2,48 @@ package com.collections.homeworkCollections;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private ArrayList<Employee> listOfEmployees;
+    private final Map<List<String>, Employee> listOfEmployees;
     private final int maxNumberOfEmployees = 10;
 
     public EmployeeServiceImpl(){
-        listOfEmployees = new ArrayList<>();
+        listOfEmployees = new HashMap<>();
     }
 
     public Employee addEmployee(String firstName, String lastName){
+        List<String> key = new ArrayList<>(List.of(firstName, lastName));
         if(listOfEmployees.size() < maxNumberOfEmployees) {
-            Employee employee = new Employee(firstName, lastName);
-            Employee employee1 = getEmployee(employee);
-            boolean b = employee.equals(employee1);
-            if(b){
-                throw new EmployeeAlreadyAddedException("EmployeeAlreadyAdded");
+            if(listOfEmployees.containsKey(key)){
+                throw new EmployeeAlreadyAddedException("Employee is already exist");
             }
-            listOfEmployees.add(employee);
-            return employee;
+            Employee employee = new Employee(firstName, lastName);
+            listOfEmployees.put(key, employee);
+            return listOfEmployees.get(key);
         }
         throw new EmployeeStorageIsFullException("ArrayIsFull");
     }
 
     public Employee removeEmployee(String firstName, String lastName){
         Employee employee = findEmployee(firstName, lastName);
-        listOfEmployees.remove(employee);
+        listOfEmployees.remove(new ArrayList<>(List.of(employee.getFirstName(), employee.getLastName())));
         return employee;
     }
 
     public Employee findEmployee(String firstName, String lastName){
-        Employee employee = new Employee(firstName, lastName);
-        Employee employee1 = getEmployee(employee);
-        if(employee1 != null){
-            return employee1;
+        List<String> key = new ArrayList<>(List.of(firstName, lastName));
+        if(listOfEmployees.get(key) != null){
+            return listOfEmployees.get(key);
         }
         throw new EmployeeNotFoundException("EmployeeNotFound");
     }
 
     public ArrayList<Employee> showEmployees(){
-        return new ArrayList<>(listOfEmployees);
-    }
-
-
-    private Employee getEmployee(Employee employee){
-        for (Employee emp :
-                listOfEmployees) {
-            if(emp.equals(employee)){
-                return emp;
-            }
-        }
-        return null;
+        ArrayList<Employee> result = new ArrayList<>();
+        result.addAll(listOfEmployees.values());
+        return result;
     }
 
 }
