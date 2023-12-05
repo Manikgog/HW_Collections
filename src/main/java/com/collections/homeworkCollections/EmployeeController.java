@@ -13,10 +13,6 @@ import java.util.ArrayList;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public EmployeeController(){
-        employeeService = new EmployeeServiceImpl();
-    }
-
     public EmployeeController(EmployeeService employeeService){
         this.employeeService = employeeService;
     }
@@ -27,8 +23,8 @@ public class EmployeeController {
                               @RequestParam(value = "departmentId", required = false) String department,
                               @RequestParam(value = "salary", required = false) String salary) {
         String resultOfCheck = check(name, lastName, department, salary);
-        float salaryInFloat = 0f;
-        int departmentInInt = 0;
+        float salaryInFloat;
+        int departmentInInt;
         if(resultOfCheck == null){
             try {
                 try {
