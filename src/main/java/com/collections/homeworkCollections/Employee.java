@@ -2,19 +2,25 @@ package com.collections.homeworkCollections;
 
 import java.util.Objects;
 
-public class Employee {
-    private final String lastName;    // фамилия
-    private final String firstname;   // имя
-    Employee(String firstname, String lastName){
+public class Employee implements Comparable {
+    private final String lastName;      // фамилия
+    private final String firstname;     // имя
+    private final int department;       // номер отдела
+    private final float salary;         // зарплата
+    Employee(String firstname, String lastName, int department, float salary){
         this.lastName = lastName;
         this.firstname = firstname;
+        this.department = department;
+        this.salary = salary;
     }
 
     @Override
     public String toString() {
         return "{<br>" +
-                "\"lastName\"=\"" + lastName + "\"" +
-                ",<br>\"firstname\"=\"" + firstname + "\"<br>" +
+                "\"lastName\"=\"" + lastName + "\"," +
+                "<br>\"firstname\"=\"" + firstname + "\"," +
+                "<br>\"departmentId\"=\"" + department + "\"," +
+                "<br>\"salary\"=\"" + salary + "\"<br>" +
                 "}";
     }
 
@@ -41,5 +47,22 @@ public class Employee {
         return this.firstname;
     }
 
+    public int getDepartment() {
+        return department;
+    }
 
+    public float getSalary() {
+        return salary;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Employee e = (Employee)o;
+        if(this.salary > e.getSalary()){
+            return 1;
+        }else if(this.salary < e.getSalary()){
+            return -1;
+        }
+        return 0;
+    }
 }

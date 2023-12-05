@@ -17,13 +17,31 @@ public class EmployeeController {
         employeeService = new EmployeeServiceImpl();
     }
 
+    public EmployeeController(EmployeeService employeeService){
+        this.employeeService = employeeService;
+    }
+
     @GetMapping(path = "/add")
     public String addEmployee(@RequestParam(value = "firstName", required = false) String name,
-                             @RequestParam(value = "lastName", required = false) String lastName) {
-        String resultOfCheck = checkNameAndLastName(name, lastName);
+                             @RequestParam(value = "lastName", required = false) String lastName,
+                              @RequestParam(value = "departmentId", required = false) String department,
+                              @RequestParam(value = "salary", required = false) String salary) {
+        String resultOfCheck = check(name, lastName, department, salary);
+        float salaryInFloat = 0f;
+        int departmentInInt = 0;
         if(resultOfCheck == null){
             try {
-                Employee employee = this.employeeService.addEmployee(name, lastName);
+                try {
+                    salaryInFloat = Float.parseFloat(salary);
+                }catch (NumberFormatException e){
+                    return e.toString();
+                }
+                try{
+                    departmentInInt = Integer.parseInt(department);
+                }catch (NumberFormatException e){
+                    return e.toString();
+                }
+                Employee employee = this.employeeService.addEmployee(name, lastName, departmentInInt, salaryInFloat);
                 return employee.toString();
             }catch (EmployeeAlreadyAddedException e){
                 return e.toString();
@@ -36,7 +54,7 @@ public class EmployeeController {
     @GetMapping(path = "/remove")
     public String removeEmployee(@RequestParam(value = "firstName", required = false) String name,
                              @RequestParam(value = "lastName", required = false) String lastName) {
-        String resultOfCheck = checkNameAndLastName(name, lastName);
+        String resultOfCheck = checkName(name, lastName);
         if(resultOfCheck == null){
             try {
                 Employee employee = this.employeeService.removeEmployee(name, lastName);
@@ -51,7 +69,7 @@ public class EmployeeController {
     @GetMapping(path = "/find")
     public String findEmployee(@RequestParam(value = "firstName", required = false) String name,
                                  @RequestParam(value = "lastName", required = false) String lastName) {
-        String resultOfCheck = checkNameAndLastName(name, lastName);
+        String resultOfCheck = checkName(name, lastName);
         if(resultOfCheck == null){
             try {
                 Employee employee = this.employeeService.findEmployee(name, lastName);
@@ -68,14 +86,39 @@ public class EmployeeController {
         return employeeService.showEmployees();
     }
 
-    public String checkNameAndLastName(String name, String lastName){
-        if(name == null && lastName == null){
-            return "Ошибка: необходимо ввести имя и отчество.";
-        }else if(name == null){
-            return "Ошибка: необходимо ввести имя.";
-        }else if(lastName == null){
-            return "Ошибка: необходимо ввести фамилию.";
+
+    private String check(String name, String lastName, String department, String salary){
+        if(name == null || lastName == null || department == null || salary == null) {
+            String result = "Ошибка: ";
+            if (name == null) {
+                result += "\nнеобходимо ввести имя";
+            }
+            if (lastName == null) {
+                result += "\nнеобходимо ввести фамилию.";
+            }
+            if (department == null) {
+                result += "\nнеобходимо ввести название отдела.";
+            }
+            if (salary == null) {
+                result += "\nнеобходимо ввести значение зарплаты.";
+            }
+            return result;
         }
         return null;
     }
+
+    private String checkName(String name, String lastName){
+        if(name == null || lastName == null) {
+            String result = "Ошибка: ";
+            if (name == null) {
+                result += "\nнеобходимо ввести имя";
+            }
+            if (lastName == null) {
+                result += "\nнеобходимо ввести фамилию.";
+            }
+            return result;
+        }
+        return null;
+    }
+
 }

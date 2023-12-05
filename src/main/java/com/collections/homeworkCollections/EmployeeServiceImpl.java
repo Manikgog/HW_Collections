@@ -2,24 +2,35 @@ package com.collections.homeworkCollections;
 
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private final Map<List<String>, Employee> listOfEmployees;
+    private final Map<String, Employee> listOfEmployees;
     private final int maxNumberOfEmployees = 10;
 
     public EmployeeServiceImpl(){
         listOfEmployees = new HashMap<>();
     }
 
-    public Employee addEmployee(String firstName, String lastName){
-        List<String> key = new ArrayList<>(List.of(firstName, lastName));
+    private String getKey(String firstName, String lastName){
+        return firstName + lastName;
+    }
+
+    public HashMap<String, Employee> getListOfEmployees(){
+        return new HashMap<>(listOfEmployees);
+    }
+
+    public Employee addEmployee(String firstName, String lastName, int departmentId, float salary){
+        String key = this.getKey(firstName, lastName);
         if(listOfEmployees.size() < maxNumberOfEmployees) {
             if(listOfEmployees.containsKey(key)){
                 throw new EmployeeAlreadyAddedException("Employee is already exist");
             }
-            Employee employee = new Employee(firstName, lastName);
+
+            Employee employee = new Employee(firstName, lastName, departmentId, salary);
             listOfEmployees.put(key, employee);
             return listOfEmployees.get(key);
         }
@@ -27,13 +38,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public Employee removeEmployee(String firstName, String lastName){
-        Employee employee = findEmployee(firstName, lastName);
-        listOfEmployees.remove(new ArrayList<>(List.of(employee.getFirstName(), employee.getLastName())));
-        return employee;
+        String key = this.getKey(firstName, lastName);
+        if(listOfEmployees.get(key) != null){
+            return listOfEmployees.remove(key);
+        }
+        throw new EmployeeNotFoundException("EmployeeNotFound");
     }
 
     public Employee findEmployee(String firstName, String lastName){
-        List<String> key = new ArrayList<>(List.of(firstName, lastName));
+        String key = this.getKey(firstName, lastName);
         if(listOfEmployees.get(key) != null){
             return listOfEmployees.get(key);
         }
@@ -45,5 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         result.addAll(listOfEmployees.values());
         return result;
     }
+
+
 
 }
