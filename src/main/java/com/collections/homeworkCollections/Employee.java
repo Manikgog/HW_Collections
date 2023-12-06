@@ -14,16 +14,6 @@ public class Employee implements Comparable {
         this.salary = salary;
     }
 
-    @Override
-    public String toString() {
-        return "{<br>" +
-                "\"lastName\"=\"" + lastName + "\"," +
-                "<br>\"firstname\"=\"" + firstname + "\"," +
-                "<br>\"departmentId\"=\"" + department + "\"," +
-                "<br>\"salary\"=\"" + salary + "\"<br>" +
-                "}";
-    }
-
     @Override public boolean equals(Object employee){
         if(this == employee){
             return true;

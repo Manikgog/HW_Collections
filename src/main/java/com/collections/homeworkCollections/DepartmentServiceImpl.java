@@ -7,63 +7,45 @@ import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
     public DepartmentServiceImpl(EmployeeService employeeService){
         this.employeeService = employeeService;
     }
+    @Override
     public Employee minSalaryFind(Integer departmentId){
-        HashMap<String, Employee> listOfEmployees = employeeService.getListOfEmployees();
-        if(listOfEmployees.size() == 0){
-            throw new ListOfEmployeesIsEmptyException("Список работников пуст.");
-        }
-        float min = Float.MAX_VALUE;
-        Optional<Employee> employee = listOfEmployees.entrySet()
+        Optional<Employee> employee = employeeService.getListOfEmployees().values()
                 .stream()
-                .map((entry) -> {return entry.getValue();})
-                .filter((emp) -> {return emp.getDepartment() == departmentId;})
+                .filter(v -> v.getDepartment() == departmentId)
                 .min(Comparator.naturalOrder());
-        return employee.get();
+
+        return employee.orElseThrow();
     }
 
+    @Override
     public Employee maxSalaryFind(Integer departmentId){
-        HashMap<String, Employee> listOfEmployees = employeeService.getListOfEmployees();
-        if(listOfEmployees.size() == 0){
-            throw new ListOfEmployeesIsEmptyException("Список работников пуст.");
-        }
-        float min = Float.MAX_VALUE;
-        Optional<Employee> employee = listOfEmployees.entrySet()
+        Optional<Employee> employee = employeeService.getListOfEmployees().values()
                 .stream()
-                .map((entry) -> {return entry.getValue();})
-                .filter((emp) -> {return emp.getDepartment() == departmentId;})
+                .filter(v -> v.getDepartment() == departmentId)
                 .max(Comparator.naturalOrder());
-        return employee.get();
+        return employee.orElseThrow();
     }
 
-    public ArrayList<Employee> allEmployeesByDepartmentId(Integer departmentId){
-        HashMap<String, Employee> listOfEmployees = employeeService.getListOfEmployees();
-        if(listOfEmployees.size() == 0){
-            throw new ListOfEmployeesIsEmptyException("Список работников пуст.");
-        }
-        List<Employee> employees = listOfEmployees
-                .entrySet()
+    @Override
+    public List<Employee> allEmployeesByDepartmentId(Integer departmentId){
+        return employeeService.getListOfEmployees()
+                .values()
                 .stream()
-                .map(entry -> entry.getValue())
-                .filter(emp -> emp.getDepartment() == departmentId)
+                .filter(e -> e.getDepartment() == departmentId)
                 .collect(Collectors.toList());
-        return (ArrayList<Employee>) employees;
     }
 
-    public ArrayList<Employee> allEmployees(){
-        HashMap<String, Employee> listOfEmployees = employeeService.getListOfEmployees();
-        if(listOfEmployees.size() == 0){
-            throw new ListOfEmployeesIsEmptyException("Список работников пуст.");
-        }
-        List<Employee> employees = listOfEmployees
+    @Override
+    public List<Employee> allEmployees(){
+        return employeeService.getListOfEmployees()
                 .entrySet()
                 .stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getValue().getDepartment()))
                 .map(entry -> entry.getValue())
-                .sorted(Comparator.comparingInt(o -> {Employee emp = (Employee)o; return emp.getDepartment();}))
                 .collect(Collectors.toList());
-        return (ArrayList<Employee>) employees;
     }
 }

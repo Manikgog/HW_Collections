@@ -2,9 +2,7 @@ package com.collections.homeworkCollections;
 
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,10 +17,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return firstName + lastName;
     }
 
-    public HashMap<String, Employee> getListOfEmployees(){
+    @Override
+    public Map<String, Employee> getListOfEmployees(){
         return new HashMap<>(listOfEmployees);
     }
 
+    @Override
     public Employee addEmployee(String firstName, String lastName, int departmentId, float salary){
         String key = this.getKey(firstName, lastName);
         if(listOfEmployees.size() < maxNumberOfEmployees) {
@@ -37,28 +37,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         throw new EmployeeStorageIsFullException("ArrayIsFull");
     }
 
+    @Override
     public Employee removeEmployee(String firstName, String lastName){
         String key = this.getKey(firstName, lastName);
         if(listOfEmployees.get(key) != null){
             return listOfEmployees.remove(key);
         }
-        throw new EmployeeNotFoundException("EmployeeNotFound");
+        throw new EmployeeNotFoundException("Employee Not Found");
     }
 
+    @Override
     public Employee findEmployee(String firstName, String lastName){
         String key = this.getKey(firstName, lastName);
         if(listOfEmployees.get(key) != null){
             return listOfEmployees.get(key);
         }
-        throw new EmployeeNotFoundException("EmployeeNotFound");
+        throw new EmployeeNotFoundException("Employee Not Found");
     }
 
-    public ArrayList<Employee> showEmployees(){
+    @Override
+    public List<Employee> showEmployees(){
         ArrayList<Employee> result = new ArrayList<>();
         result.addAll(listOfEmployees.values());
         return result;
     }
-
-
 
 }

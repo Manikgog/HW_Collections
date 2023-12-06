@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
@@ -15,40 +17,31 @@ public class DepartmentController {
     }
 
     @GetMapping(path = "/min-salary")
-    public String findEmployeeWithMinSalaryByDepartment(@RequestParam(value = "departmentId", required = false) Integer departmentId){
-
+    public Object findEmployeeWithMinSalaryByDepartment(@RequestParam(value = "departmentId") Integer departmentId){
         try {
-            return departmentService.minSalaryFind(departmentId).toString();
-        }catch (ListOfEmployeesIsEmptyException e){
-            return e.toString();
+            return departmentService.minSalaryFind(departmentId);
+        }catch (RuntimeException e){
+            return e.getMessage();
         }
     }
 
     @GetMapping(path = "/max-salary")
-    public String findEmployeeWithMaxSalaryByDepartment(@RequestParam(value = "departmentId", required = false) Integer departmentId){
+    public Object findEmployeeWithMaxSalaryByDepartment(@RequestParam(value = "departmentId") Integer departmentId){
         try {
-            return departmentService.maxSalaryFind(departmentId).toString();
-        }catch (ListOfEmployeesIsEmptyException e){
-            return e.toString();
+            return departmentService.maxSalaryFind(departmentId);
+        }catch (RuntimeException e){
+            return e.getMessage();
         }
     }
 
     @GetMapping(path = "/all", params = "departmentId")
-    public String printAllEmployeesByDepartmentId(@RequestParam(defaultValue = "departmentId", required = false) Integer departmentId){
-        try {
-            return departmentService.allEmployeesByDepartmentId(departmentId).toString();
-        }catch (ListOfEmployeesIsEmptyException e){
-            return e.toString();
-        }
+    public List<Employee> printAllEmployeesByDepartmentId(@RequestParam(defaultValue = "departmentId") Integer departmentId){
+        return departmentService.allEmployeesByDepartmentId(departmentId);
     }
 
     @GetMapping(path = "/all")
-    public String printAllEmployeesByDepartmentId(){
-        try {
-            return departmentService.allEmployees().toString();
-        }catch (ListOfEmployeesIsEmptyException e){
-            return e.toString();
-        }
+    public List<Employee> printAllEmployeesByDepartmentId(){
+        return departmentService.allEmployees();
     }
 
 }

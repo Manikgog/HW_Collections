@@ -1,7 +1,7 @@
 package com.collections.homeworkCollections;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface EmployeeService {
     Employee addEmployee(String firstName, String lastName, int department, float salary);
@@ -10,7 +10,7 @@ public interface EmployeeService {
 
     Employee findEmployee(String firstName, String lastName);
 
-    ArrayList<Employee> showEmployees();
-    HashMap<String, Employee> getListOfEmployees();
+    List<Employee> showEmployees();
+    Map<String, Employee> getListOfEmployees();
 
 }
