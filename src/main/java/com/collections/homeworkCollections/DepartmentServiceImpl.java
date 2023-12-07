@@ -42,10 +42,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Employee> allEmployees(){
         return employeeService.getListOfEmployees()
-                .entrySet()
+                .values()//.entrySet()
                 .stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getValue().getDepartment()))
-                .map(entry -> entry.getValue())
+                .sorted(Comparator.comparingInt(employee -> employee.getDepartment()))
                 .collect(Collectors.toList());
     }
 }
