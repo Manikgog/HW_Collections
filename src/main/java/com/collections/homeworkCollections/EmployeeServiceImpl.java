@@ -7,10 +7,10 @@ import java.util.*;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final Map<String, Employee> listOfEmployees;
-    private final int maxNumberOfEmployees = 10;
+    private final int maxNumberOfEmployees = 20;
 
     public EmployeeServiceImpl(){
-        listOfEmployees = new HashMap<>();
+        listOfEmployees = new HashMap<>(HomeworkCollectionsApplication.listOfEmployees);
     }
 
     private String getKey(String firstName, String lastName){

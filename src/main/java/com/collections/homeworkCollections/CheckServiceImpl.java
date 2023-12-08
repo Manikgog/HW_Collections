@@ -1,5 +1,6 @@
 package com.collections.homeworkCollections;
 
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +21,7 @@ public class CheckServiceImpl implements CheckService {
             if (salary == null) {
                 result += "\nнеобходимо ввести значение зарплаты.";
             }
-            return result;
+            throw new HttpMessageNotReadableException(result);
         }
         return null;
     }
@@ -35,7 +36,7 @@ public class CheckServiceImpl implements CheckService {
             if (lastName == null) {
                 result += "\nнеобходимо ввести фамилию.";
             }
-            return result;
+            throw new HttpMessageNotReadableException(result);
         }
         return null;
     }

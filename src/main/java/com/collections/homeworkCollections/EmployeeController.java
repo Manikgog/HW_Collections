@@ -20,45 +20,26 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/add")
-    public Object addEmployee(@RequestParam(value = "firstName", required = false) String name,
+    public Employee addEmployee(@RequestParam(value = "firstName", required = false) String name,
                              @RequestParam(value = "lastName", required = false) String lastName,
                               @RequestParam(value = "departmentId", required = false) Integer department,
                               @RequestParam(value = "salary", required = false) Float salary) {
-        String resultOfCheck = checkService.check(name, lastName, department, salary);
-        if(resultOfCheck == null){
-            return this.employeeService.addEmployee(name, lastName, department, salary);
-        }
-        return resultOfCheck;
+        checkService.check(name, lastName, department, salary);
+        return this.employeeService.addEmployee(name, lastName, department, salary);
     }
 
     @GetMapping(path = "/remove")
-    public Object removeEmployee(@RequestParam(value = "firstName", required = false) String name,
+    public Employee removeEmployee(@RequestParam(value = "firstName", required = false) String name,
                              @RequestParam(value = "lastName", required = false) String lastName) {
-        String resultOfCheck = checkService.checkName(name, lastName);
-        if(resultOfCheck == null){
-            try {
-                return this.employeeService.removeEmployee(name, lastName);
-            }catch (EmployeeNotFoundException e){
-                System.out.println(e.getMessage());
-                return resultOfCheck;
-            }
-        }
-        return resultOfCheck;
+        checkService.checkName(name, lastName);
+        return this.employeeService.removeEmployee(name, lastName);
     }
 
     @GetMapping(path = "/find")
-    public Object findEmployee(@RequestParam(value = "firstName", required = false) String name,
+    public Employee findEmployee(@RequestParam(value = "firstName", required = false) String name,
                                  @RequestParam(value = "lastName", required = false) String lastName) {
-        String resultOfCheck = checkService.checkName(name, lastName);
-        if(resultOfCheck == null){
-            try {
-                return this.employeeService.findEmployee(name, lastName);
-            }catch (EmployeeNotFoundException e){
-                System.out.println(e.getMessage());
-                return resultOfCheck;
-            }
-        }
-        return resultOfCheck;
+        checkService.checkName(name, lastName);
+        return this.employeeService.findEmployee(name, lastName);
     }
 
     @GetMapping

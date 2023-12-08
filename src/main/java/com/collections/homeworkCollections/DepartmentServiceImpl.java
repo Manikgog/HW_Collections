@@ -17,8 +17,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .stream()
                 .filter(v -> v.getDepartment() == departmentId)
                 .min(Comparator.naturalOrder());
-
-        return employee.orElseThrow();
+        return employee.orElseThrow(() -> new EmployeeNotFoundException("Department Not Found"));
     }
 
     @Override
@@ -27,7 +26,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .stream()
                 .filter(v -> v.getDepartment() == departmentId)
                 .max(Comparator.naturalOrder());
-        return employee.orElseThrow();
+        return employee.orElseThrow(() -> new EmployeeNotFoundException("Department Not Found"));
     }
 
     @Override
@@ -40,11 +39,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Employee> allEmployees(){
-        return employeeService.getListOfEmployees()
-                .values()//.entrySet()
+    public Map<Integer, List<Employee>> allEmployees(){
+        List<Employee> employeesList = employeeService.getListOfEmployees()
+                .values()
                 .stream()
-                .sorted(Comparator.comparingInt(employee -> employee.getDepartment()))
                 .collect(Collectors.toList());
+        return employeesList
+                .stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 }
