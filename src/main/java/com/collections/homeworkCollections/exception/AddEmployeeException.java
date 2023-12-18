@@ -1,15 +1,15 @@
-package com.collections.homeworkCollections;
+package com.collections.homeworkCollections.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class EmployeeNotFoundException extends RuntimeException {
-    public EmployeeNotFoundException(){
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class AddEmployeeException extends RuntimeException {
+    public AddEmployeeException(){
         super();
     }
 
-    public EmployeeNotFoundException(String str){
+    public AddEmployeeException(String str){
         super(str);
     }
 

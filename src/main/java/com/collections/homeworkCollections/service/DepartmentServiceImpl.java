@@ -1,5 +1,7 @@
-package com.collections.homeworkCollections;
+package com.collections.homeworkCollections.service;
 
+import com.collections.homeworkCollections.domain.Employee;
+import com.collections.homeworkCollections.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

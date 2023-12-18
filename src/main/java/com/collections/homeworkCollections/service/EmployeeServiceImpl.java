@@ -1,5 +1,10 @@
-package com.collections.homeworkCollections;
+package com.collections.homeworkCollections.service;
 
+import com.collections.homeworkCollections.*;
+import com.collections.homeworkCollections.domain.Employee;
+import com.collections.homeworkCollections.exception.EmployeeAlreadyAddedException;
+import com.collections.homeworkCollections.exception.EmployeeNotFoundException;
+import com.collections.homeworkCollections.exception.EmployeeStorageIsFullException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

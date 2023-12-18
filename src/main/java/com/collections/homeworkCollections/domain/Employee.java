@@ -1,4 +1,4 @@
-package com.collections.homeworkCollections;
+package com.collections.homeworkCollections.domain;
 
 import java.util.Objects;
 
@@ -7,7 +7,7 @@ public class Employee implements Comparable {
     private final String firstname;     // имя
     private final int department;       // номер отдела
     private final float salary;         // зарплата
-    Employee(String firstname, String lastName, int department, float salary){
+    public Employee(String firstname, String lastName, int department, float salary){
         this.lastName = lastName;
         this.firstname = firstname;
         this.department = department;

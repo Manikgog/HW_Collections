@@ -1,4 +1,6 @@
-package com.collections.homeworkCollections;
+package com.collections.homeworkCollections.service;
+
+import com.collections.homeworkCollections.domain.Employee;
 
 import java.util.List;
 import java.util.Map;

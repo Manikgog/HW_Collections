@@ -1,5 +1,9 @@
-package com.collections.homeworkCollections;
+package com.collections.homeworkCollections.controller;
 
+import com.collections.homeworkCollections.service.CheckService;
+import com.collections.homeworkCollections.domain.Employee;
+import com.collections.homeworkCollections.service.EmployeeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +24,12 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/add")
-    public Employee addEmployee(@RequestParam(value = "firstName", required = false) String name,
-                             @RequestParam(value = "lastName", required = false) String lastName,
-                              @RequestParam(value = "departmentId", required = false) Integer department,
-                              @RequestParam(value = "salary", required = false) Float salary) {
-        checkService.check(name, lastName, department, salary);
-        return this.employeeService.addEmployee(name, lastName, department, salary);
+    public ResponseEntity<Employee> addEmployee(@RequestParam(value = "firstName", required = false) String name,
+                                @RequestParam(value = "lastName", required = false) String lastName,
+                                @RequestParam(value = "departmentId", required = false) Integer department,
+                                @RequestParam(value = "salary", required = false) Float salary) {
+        String[] nameLastName = checkService.check(name, lastName, department, salary);
+        return ResponseEntity.ok(this.employeeService.addEmployee(nameLastName[0], nameLastName[1], department, salary));
     }
 
     @GetMapping(path = "/remove")
