@@ -28,8 +28,8 @@ public class EmployeeController {
                                 @RequestParam(value = "lastName", required = false) String lastName,
                                 @RequestParam(value = "departmentId", required = false) Integer department,
                                 @RequestParam(value = "salary", required = false) Float salary) {
-        String[] nameLastName = checkService.check(name, lastName, department, salary);
-        return ResponseEntity.ok(this.employeeService.addEmployee(nameLastName[0], nameLastName[1], department, salary));
+        checkService.check(name, lastName, department, salary);
+        return ResponseEntity.ok(this.employeeService.addEmployee(name, lastName, department, salary));
     }
 
     @GetMapping(path = "/remove")

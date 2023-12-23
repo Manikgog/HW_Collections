@@ -5,6 +5,7 @@ import com.collections.homeworkCollections.domain.Employee;
 import com.collections.homeworkCollections.exception.EmployeeAlreadyAddedException;
 import com.collections.homeworkCollections.exception.EmployeeNotFoundException;
 import com.collections.homeworkCollections.exception.EmployeeStorageIsFullException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, int departmentId, float salary){
+        firstName = StringUtils.capitalize(firstName.toLowerCase());
+        lastName = StringUtils.capitalize(lastName.toLowerCase());
         String key = this.getKey(firstName, lastName);
         if(listOfEmployees.size() < maxNumberOfEmployees) {
             if(listOfEmployees.containsKey(key)){
@@ -62,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> showEmployees(){
-        ArrayList<Employee> result = new ArrayList<>();
+        List<Employee> result = new ArrayList<>();
         result.addAll(listOfEmployees.values());
         return result;
     }

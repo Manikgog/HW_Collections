@@ -11,9 +11,8 @@ import static org.apache.commons.lang3.StringUtils.*;
 @Service
 public class CheckServiceImpl implements CheckService {
 
-    String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя-";
     @Override
-    public String[] check(String name, String lastName, Integer department, Float salary){
+    public void check(String name, String lastName, Integer department, Float salary){
 
         if(name == null || lastName == null){
             checkName(name, lastName);
@@ -37,11 +36,9 @@ public class CheckServiceImpl implements CheckService {
             }
             throw new AddEmployeeException(result.toString());
         }
-        String[] nameLastName = new String[2];
-        nameLastName[0] = checkCorrectName(name, alpha);
-        nameLastName[1] = checkCorrectName(lastName, alpha);
+        checkCorrectName(name);
+        checkCorrectName(lastName);
 
-        return nameLastName;
     }
 
     @Override
@@ -69,14 +66,10 @@ public class CheckServiceImpl implements CheckService {
         }
     }
 
-    private String checkCorrectName(String name, String validChars){
-        if (!StringUtils.containsOnly(name, validChars)) {
+    private void checkCorrectName(String name){
+        if (!StringUtils.isAlpha(name)) {
             throw new WrongNameException(name + " содержит недопустимые символы или пробелы.");
         }
-        name = lowerCase(name);
-        char firstChar = name.charAt(0);
-        String fc = String.valueOf(firstChar);
-        return replaceFirst(name, fc, upperCase(fc));
     }
 
 
